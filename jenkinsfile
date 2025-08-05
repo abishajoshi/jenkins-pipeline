@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git url: 'https://github.com/rahman5828/intermediate-app.git'
+                git url: 'https://github.com/abishajoshi/jenkins-pipeline.git'
             }
         }
 

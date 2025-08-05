@@ -15,35 +15,35 @@ pipeline {
 
         stage('Pull Node Docker Image') {
             steps {
-                bat 'docker pull node:18'
+                sh 'docker pull node:18'
             }
         }
 
         stage('Install Dependencies') {
             steps {
-                bat 'docker run --rm -v "%cd%:/app" -w /app node:18 npm install'
+                sh 'docker run --rm -v "$PWD:/app" -w /app node:18 npm install'
             }
         }
 
         stage('Run Tests') {
             steps {
-                bat 'docker run --rm -v "%cd%:/app" -w /app node:18 npm test'
+                sh 'docker run --rm -v "$PWD:/app" -w /app node:18 npm test'
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                bat "docker build -t %IMAGE_NAME% ."
+                sh 'docker build -t $IMAGE_NAME .'
             }
         }
 
         stage('Deploy') {
             steps {
                 echo '🚀 Starting app container...'
-                // Stop and remove previous container if exists
-                bat 'docker rm -f %APP_NAME% || echo "No existing container."'
+                // Stop and remove previous container if it exists
+                sh 'docker rm -f $APP_NAME || echo "No existing container."'
                 // Run the new container
-                bat 'docker run -d -p 3000:3000 --name %APP_NAME% %IMAGE_NAME%'
+                sh 'docker run -d -p 3000:3000 --name $APP_NAME $IMAGE_NAME'
             }
         }
     }

@@ -10,6 +10,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 git url: 'https://github.com/abishajoshi/jenkins-pipeline.git'
+            }
         }
 
         stage('Pull Node Docker Image') {
